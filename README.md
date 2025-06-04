@@ -24,4 +24,4 @@ A simple Vite-powered web app that suggests recipes based on ingredients you hav
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/ATG404/Chef-Mistral.git
+   https://github.com/ATG404/Chef-Mistral.git
