@@ -8,7 +8,16 @@ export default function Main(){
     const ingredientsListItems= ingredients.map((ingredient)=>(
         <li key={ingredient}>{ingredient}</li>
     ))
+    
     const [recipe, setRecipe] = React.useState("")
+    const recipeSection = React.useRef(null)
+
+    React.useEffect(() => {
+        if(recipe !== "" && recipeSection.current !== null){
+            recipeSection.current.scrollIntoView({behavior: "smooth"})
+        }
+    }, [recipe])
+
     async function getRecipe(){
         if(ingredients.length > 3)
         {
@@ -27,6 +36,8 @@ export default function Main(){
         setIngredients(prevIngredients => [...prevIngredients, newIngredient])
     }
 
+
+
     return(
         <main>
         <form action={addIngredient} className="ingredients-form">
@@ -36,11 +47,15 @@ export default function Main(){
                 aria-label="Add ingredient"
                 name="ingredient"
             />
+
             <button> add ingredient</button>
+        
         </form>
-        <IngredientsList listItems={ingredientsListItems}
+        <IngredientsList ref={recipeSection}
+                         listItems={ingredientsListItems}
                          length = {ingredients.length}
                          recipe = {getRecipe}
+
         />        
         {recipe ? <MistralRecipe recipe={recipe}/>  : null}
 
