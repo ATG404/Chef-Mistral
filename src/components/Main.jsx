@@ -8,7 +8,7 @@ export default function Main(){
     const ingredientsListItems= ingredients.map((ingredient)=>(
         <li key={ingredient}>{ingredient}</li>
     ))
-    
+    const [loading, setLoading] = React.useState(false);
     const [recipe, setRecipe] = React.useState("")
     const recipeSection = React.useRef(null)
 
@@ -19,16 +19,17 @@ export default function Main(){
     }, [recipe])
 
     async function getRecipe(){
-        if(ingredients.length > 3)
-        {
+        if (ingredients.length <= 3) return
+
+        setLoading(true)
+        try {
             const recipeMarkDown = await getRecipeFromMistral(ingredients)
             setRecipe(recipeMarkDown)
+        } catch (err) {
+            console.error("Error fetching recipe:", err.message)
+        } finally {
+            setLoading(false)
         }
-        else
-        {
-            return recipe
-        }
-        return recipe
     }
 
     function addIngredient(formData){
@@ -57,7 +58,7 @@ export default function Main(){
                          recipe = {getRecipe}
 
         />        
-        {recipe ? <MistralRecipe recipe={recipe}/>  : null}
+        {recipe || loading ? (<MistralRecipe recipe={recipe} loading={loading}/>)  : null}
 
         </main>
     )
