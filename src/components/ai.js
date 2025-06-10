@@ -38,4 +38,4 @@ export async function getRecipeFromMistral(ingredientsArr) {
     } catch (err) {
         console.error(err.message)
     }
-}
+}//what does this do anyways.
